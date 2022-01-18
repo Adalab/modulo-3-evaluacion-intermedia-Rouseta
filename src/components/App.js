@@ -1,103 +1,105 @@
-
-import '../styles/App.scss';
-import { useState } from 'react';
+import "../styles/App.scss";
+import { useState } from "react";
 // import callToApi from '../services/api'
 //import ls from '../services/localStorage';
-import adalabers from '../data/adalabers.json'
+import adalabers from "../data/adalabers.json";
 
 function App() {
-
   //variables básicas para HTML
-  const title = 'Adalabers'
-  const name = 'Nombre'
-  const tutor = 'Tutora'
-  const area = 'Especialidad'
-  const titleNewContact = 'Añade una nueva adalaber'
+  const title = "Adalabers";
+  const name = "Nombre";
+  const tutor = "Tutora";
+  const area = "Especialidad";
+  const titleNewContact = "Añade una nueva adalaber";
 
   //Variables para crear y añadir nuevo contacto
 
-  const [newAdalaber, setNewAdalaber] = useState('');
-  const [newTutor, setNewTutor] = useState('');
-  const [newArea, setNewArea] = useState('');
+  const [newAdalaber, setNewAdalaber] = useState("");
+  const [newTutor, setNewTutor] = useState("");
+  const [newArea, setNewArea] = useState("");
 
   const handleName = (event) => {
-    setNewAdalaber(event.currentTarget.value)
-  }
+    setNewAdalaber(event.currentTarget.value);
+  };
   const handleTutor = (event) => {
-    setNewTutor(event.currentTarget.value)
-  }
+    setNewTutor(event.currentTarget.value);
+  };
   const handleArea = (event) => {
-    setNewArea(event.currentTarget.value)
-  }
+    setNewArea(event.currentTarget.value);
+  };
   const handleClick = (event) => {
     event.preventDefault();
     const newContact = {
-
       name: newAdalaber,
       counselor: newTutor,
-      speciality: newArea
+      speciality: newArea,
     };
     setAdalabersList([...adalabersList, newContact]);
-    setNewAdalaber('');
-    setNewTutor('');
-    setNewArea('');
+    setNewAdalaber("");
+    setNewTutor("");
+    setNewArea("");
+  };
+
+  //Filtrar
+
+  const [search, setSearch] = useState('');
+  const handleChangeSearch = (event) => {
+    setSearch(event.currentTarget.value);
   }
-
-
 
   //Pintar el nombre de las Adalabers en HTML.Para ello necesito una variable de estado y un map que recorra el array
 
-  const [adalabersList, setAdalabersList] = useState(adalabers.results)
-  // setAdalabersList([...adalabersList])
+  const [adalabersList, setAdalabersList] = useState(adalabers.results);
+
+  //Filtrar por nombre y tutor
+  const filteredAdalabers = adalabersList.filter(
+    (oneAdalaber) =>
+      oneAdalaber.name.toLowerCase().includes(search.toLowerCase()) || oneAdalaber.counselor.toLowerCase().includes(search.toLowerCase())
+
+  );
 
 
-
-  const renderData = adalabersList.map((adalaber, index) => {
+  const renderData = filteredAdalabers.map((adalaber, index) => {
     return (
-
-
-      <tr key={index}>
+      <tr key={adalaber.id}>
         <td>{adalaber.name}</td>
         <td>{adalaber.counselor}</td>
         <td>{adalaber.speciality}</td>
-
       </tr>
-
-
-
-
-    )
-  })
-
-  //Ahora quiero añadir una nueva adalaber a mi lista
-
-
-
-
-
+    );
+  });
 
   return (
-
     <div>
       <header>
         <h1>{title}</h1>
+        <form>
+          <input
+            className="header__search"
+            autoComplete="off"
+            type="search"
+            name="search"
+            placeholder="Filtrar contactos por nombre"
+            onChange={handleChangeSearch}
+            value={search}
+          />
+
+
+        </form>
       </header>
       <section>
         <table>
-          {/* <!-- Fila de cabecera --> */}
-          <thead><tr>
-            <th>{name}</th>
-            <th>{tutor}</th>
-            <th>{area}</th>
-          </tr></thead>
+
+          <thead>
+            <tr>
+              <th>{name}</th>
+              <th>{tutor}</th>
+              <th>{area}</th>
+            </tr>
+          </thead>
 
 
-          {/* <!-- Fin fila de cabecera --> */}
-          <tbody>
-
-            {renderData}
-
-          </tbody>
+          <tbody>{renderData}</tbody>
         </table>
       </section>
       <section>
@@ -136,17 +138,9 @@ function App() {
             value="Añadir nueva Adalaber"
             onClick={handleClick}
           />
-
-
-
         </form>
-
-
       </section>
-
-
     </div>
-
   );
 }
 
