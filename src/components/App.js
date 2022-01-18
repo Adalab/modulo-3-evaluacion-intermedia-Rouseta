@@ -12,13 +12,45 @@ function App() {
   const name = 'Nombre'
   const tutor = 'Tutora'
   const area = 'Especialidad'
+  const titleNewContact = 'Añade una nueva adalaber'
+
+  //Variables para crear y añadir nuevo contacto
+
+  const [newAdalaber, setNewAdalaber] = useState('');
+  const [newTutor, setNewTutor] = useState('');
+  const [newArea, setNewArea] = useState('');
+
+  const handleName = (event) => {
+    setNewAdalaber(event.currentTarget.value)
+  }
+  const handleTutor = (event) => {
+    setNewTutor(event.currentTarget.value)
+  }
+  const handleArea = (event) => {
+    setNewArea(event.currentTarget.value)
+  }
+  const handleClick = (event) => {
+    event.preventDefault();
+    const newContact = {
+
+      name: newAdalaber,
+      counselor: newTutor,
+      speciality: newArea
+    };
+    setAdalabersList([...adalabersList, newContact]);
+    setNewAdalaber('');
+    setNewTutor('');
+    setNewArea('');
+  }
+
 
 
   //Pintar el nombre de las Adalabers en HTML.Para ello necesito una variable de estado y un map que recorra el array
 
   const [adalabersList, setAdalabersList] = useState(adalabers.results)
   // setAdalabersList([...adalabersList])
-  // console.log(adalabersList);
+
+
 
   const renderData = adalabersList.map((adalaber, index) => {
     return (
@@ -36,6 +68,8 @@ function App() {
 
     )
   })
+
+  //Ahora quiero añadir una nueva adalaber a mi lista
 
 
 
@@ -60,23 +94,56 @@ function App() {
 
           {/* <!-- Fin fila de cabecera --> */}
           <tbody>
-            {/* <!-- Primera fila --> */}
+
             {renderData}
-            {/* <!-- Segunda fila --> */}
-            <tr>
-              <td>Columa 1 de la fila 2</td>
-              <td>Columa 2 de la fila 2</td>
-              <td>Columa 3 de la fila 2</td>
-            </tr>
-            {/* <!-- Tercera fila --> */}
-            <tr>
-              <td>Columa 1 de la fila 3</td>
-              <td>Columa 2 de la fila 3</td>
-              <td>Columa 3 de la fila 3</td>
-            </tr>
+
           </tbody>
         </table>
       </section>
+      <section>
+        <form>
+          <h2>{titleNewContact}</h2>
+          <input
+            className="new-contact__input"
+            type="text"
+            name="name"
+            id="name"
+            placeholder="Nombre"
+            onChange={handleName}
+            value={newAdalaber}
+          />
+          <input
+            className="new-contact__input"
+            type="text"
+            name="name"
+            id="name"
+            placeholder="Tutor"
+            onChange={handleTutor}
+            value={newTutor}
+          />
+          <input
+            className="new-contact__input"
+            type="text"
+            name="name"
+            id="name"
+            placeholder="Especialidad"
+            onChange={handleArea}
+            value={newArea}
+          />
+          <input
+            className="new-contact__btn"
+            type="submit"
+            value="Añadir nueva Adalaber"
+            onClick={handleClick}
+          />
+
+
+
+        </form>
+
+
+      </section>
+
 
     </div>
 
