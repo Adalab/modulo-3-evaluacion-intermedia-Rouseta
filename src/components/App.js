@@ -73,7 +73,14 @@ function App() {
     <div>
       <header className="header">
         <h1>{title}</h1>
+
         <form>
+          <select name="tutor" id="tutor">
+            <option disabled value="">Cualquiera</option>
+            <option value={adalabers.counselor}>Dayana</option>
+            <option value={adalabers.counselor}>Iván</option>
+            <option value={adalabers.counselor}>Yanelis</option>
+          </select>
           <input
             className="header__search"
             autoComplete="off"
