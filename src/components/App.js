@@ -71,7 +71,7 @@ function App() {
 
   return (
     <div>
-      <header>
+      <header className="header">
         <h1>{title}</h1>
         <form>
           <input
@@ -79,7 +79,7 @@ function App() {
             autoComplete="off"
             type="search"
             name="search"
-            placeholder="Filtrar contactos por nombre"
+            placeholder="Filtrar contactos por nombre o tutor"
             onChange={handleChangeSearch}
             value={search}
           />
@@ -87,8 +87,8 @@ function App() {
 
         </form>
       </header>
-      <section>
-        <table>
+      <section className="result-names">
+        <table className="table">
 
           <thead>
             <tr>
@@ -102,7 +102,7 @@ function App() {
           <tbody>{renderData}</tbody>
         </table>
       </section>
-      <section>
+      <section className="results-names">
         <form>
           <h2>{titleNewContact}</h2>
           <input
@@ -140,7 +140,7 @@ function App() {
           />
         </form>
       </section>
-    </div>
+    </div >
   );
 }
 
