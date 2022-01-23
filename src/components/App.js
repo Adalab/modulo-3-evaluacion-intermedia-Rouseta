@@ -10,10 +10,12 @@ function App() {
   const tutor = "Tutora";
   const area = "Especialidad";
   const titleNewContact = "Añade una nueva adalaber";
+  const rrss = "Redes sociales"
 
   const [newAdalaber, setNewAdalaber] = useState("");
   const [newTutor, setNewTutor] = useState("");
   const [newArea, setNewArea] = useState("");
+
 
   const handleName = (event) => {
     setNewAdalaber(event.currentTarget.value);
@@ -30,6 +32,7 @@ function App() {
       name: newAdalaber,
       counselor: newTutor,
       speciality: newArea,
+
     };
     setAdalabersList([...adalabersList, newContact]);
     setNewAdalaber("");
@@ -46,48 +49,31 @@ function App() {
 
   const [adalabersList, setAdalabersList] = useState(adalabers.results);
 
-  const filteredAdalabers = adalabersList.filter(
-    (oneAdalaber) =>
-      oneAdalaber.name.toLowerCase().includes(search.toLowerCase()) ||
-      oneAdalaber.counselor.toLowerCase().includes(search.toLowerCase())
-  );
+
   const handleFilterCounselor = (event) => {
     setCounselor(event.currentTarget.value)
 
   }
   const adalabersListCounselor = adalabersList
-    .filter((eachOne) => {
+    .filter((oneAdalaber) => {
       if (counselor === 'All') {
         return true;
       }
-      else if (counselor === eachOne.counselor) {
+      else if (counselor === oneAdalaber.counselor) {
         return true;
       } else {
         return false;
       }
     })
-  const counselorRendering = adalabersListCounselor.map((eachCounselor) => {
-    return (
-      <tr key={eachCounselor.id}>
-        <td>{eachCounselor.name}</td>
-        <td>{eachCounselor.counselor}</td>
-        <td>{eachCounselor.speciality}</td>
+    .filter((oneAdalaber) => oneAdalaber.name.toLocaleLowerCase().includes(search.toLocaleLowerCase()))
+    .map((oneAdalaber) => (
+      <tr key={oneAdalaber.id}>
+        <td>{oneAdalaber.name}</td>
+        <td>{oneAdalaber.counselor}</td>
+        <td>{oneAdalaber.speciality}</td>
       </tr>
-    )
+    ));
 
-
-  })
-
-
-  const renderData = filteredAdalabers.map((adalaber, index) => {
-    return (
-      <tr key={adalaber.id}>
-        <td>{adalaber.name}</td>
-        <td>{adalaber.counselor}</td>
-        <td>{adalaber.speciality}</td>
-      </tr>
-    );
-  });
 
 
 
@@ -124,10 +110,11 @@ function App() {
               <th>{name}</th>
               <th>{tutor}</th>
               <th>{area}</th>
+              <th>{rrss}</th>
             </tr>
           </thead>
 
-          <tbody>{counselorRendering}</tbody>
+          <tbody>{adalabersListCounselor}</tbody>
         </table>
       </section>
       <section className="results-names">
