@@ -5,14 +5,11 @@ import { useState } from "react";
 import adalabers from "../data/adalabers.json";
 
 function App() {
-  //variables básicas para HTML
   const title = "Adalabers";
   const name = "Nombre";
   const tutor = "Tutora";
   const area = "Especialidad";
   const titleNewContact = "Añade una nueva adalaber";
-
-  //Variables para crear y añadir nuevo contacto
 
   const [newAdalaber, setNewAdalaber] = useState("");
   const [newTutor, setNewTutor] = useState("");
@@ -40,23 +37,46 @@ function App() {
     setNewArea("");
   };
 
-  //Filtrar
 
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
+  const [counselor, setCounselor] = useState('All')
   const handleChangeSearch = (event) => {
     setSearch(event.currentTarget.value);
-  }
-
-  //Pintar el nombre de las Adalabers en HTML.Para ello necesito una variable de estado y un map que recorra el array
+  };
 
   const [adalabersList, setAdalabersList] = useState(adalabers.results);
 
-  //Filtrar por nombre y tutor
   const filteredAdalabers = adalabersList.filter(
     (oneAdalaber) =>
-      oneAdalaber.name.toLowerCase().includes(search.toLowerCase()) || oneAdalaber.counselor.toLowerCase().includes(search.toLowerCase())
-
+      oneAdalaber.name.toLowerCase().includes(search.toLowerCase()) ||
+      oneAdalaber.counselor.toLowerCase().includes(search.toLowerCase())
   );
+  const handleFilterCounselor = (event) => {
+    setCounselor(event.currentTarget.value)
+
+  }
+  const adalabersListCounselor = adalabersList
+    .filter((eachOne) => {
+      if (counselor === 'All') {
+        return true;
+      }
+      else if (counselor === eachOne.counselor) {
+        return true;
+      } else {
+        return false;
+      }
+    })
+  const counselorRendering = adalabersListCounselor.map((eachCounselor) => {
+    return (
+      <tr key={eachCounselor.id}>
+        <td>{eachCounselor.name}</td>
+        <td>{eachCounselor.counselor}</td>
+        <td>{eachCounselor.speciality}</td>
+      </tr>
+    )
+
+
+  })
 
 
   const renderData = filteredAdalabers.map((adalaber, index) => {
@@ -69,34 +89,36 @@ function App() {
     );
   });
 
+
+
   return (
     <div>
       <header className="header">
         <h1>{title}</h1>
 
         <form>
-          <select name="tutor" id="tutor">
-            <option disabled value="">Cualquiera</option>
-            <option value={adalabers.counselor}>Dayana</option>
-            <option value={adalabers.counselor}>Iván</option>
-            <option value={adalabers.counselor}>Yanelis</option>
-          </select>
-          <input
-            className="header__search"
-            autoComplete="off"
-            type="search"
-            name="search"
-            placeholder="Filtrar contactos por nombre o tutor"
-            onChange={handleChangeSearch}
-            value={search}
-          />
-
-
+          <label> Escoge un tutor o tutora
+            <select name="tutor" id="tutor" value={counselor} onChange={handleFilterCounselor}>
+              <option value="All">Cualquiera</option>
+              <option value={adalabers.counselor}>Dayana</option>
+              <option value={adalabers.counselor}>Iván</option> b
+              <option value={adalabers.counselor}>Yanelis</option>
+              <option value={adalabers.counselor}>Miguel</option>
+            </select>
+            <input
+              className="header__search"
+              autoComplete="off"
+              type="search"
+              name="search"
+              placeholder="Filtrar contactos por nombre o tutor"
+              onChange={handleChangeSearch}
+              value={search}
+            />
+          </label>
         </form>
       </header>
       <section className="result-names">
         <table className="table">
-
           <thead>
             <tr>
               <th>{name}</th>
@@ -105,8 +127,7 @@ function App() {
             </tr>
           </thead>
 
-
-          <tbody>{renderData}</tbody>
+          <tbody>{counselorRendering}</tbody>
         </table>
       </section>
       <section className="results-names">
@@ -147,7 +168,7 @@ function App() {
           />
         </form>
       </section>
-    </div >
+    </div>
   );
 }
 
