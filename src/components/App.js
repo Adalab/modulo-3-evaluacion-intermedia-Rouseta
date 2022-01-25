@@ -15,6 +15,7 @@ function App() {
   const [newAdalaber, setNewAdalaber] = useState("");
   const [newTutor, setNewTutor] = useState("");
   const [newArea, setNewArea] = useState("");
+  const [socialNetworks, setSocialNetworks] = useState("");
 
 
   const handleName = (event) => {
@@ -25,24 +26,34 @@ function App() {
   };
   const handleArea = (event) => {
     setNewArea(event.currentTarget.value);
+
   };
+  const handleRrss = (event) => {
+
+    setSocialNetworks(event.currentTarget.value)
+  };
+
   const handleClick = (event) => {
     event.preventDefault();
     const newContact = {
       name: newAdalaber,
       counselor: newTutor,
       speciality: newArea,
+      rrss: socialNetworks
 
     };
     setAdalabersList([...adalabersList, newContact]);
     setNewAdalaber("");
     setNewTutor("");
     setNewArea("");
+    setSocialNetworks = [];
+
   };
 
 
   const [search, setSearch] = useState("");
-  const [counselor, setCounselor] = useState('All')
+  const [counselor, setCounselor] = useState('All');
+
   const handleChangeSearch = (event) => {
     setSearch(event.currentTarget.value);
   };
@@ -71,6 +82,10 @@ function App() {
         <td>{oneAdalaber.name}</td>
         <td>{oneAdalaber.counselor}</td>
         <td>{oneAdalaber.speciality}</td>
+        <td>{oneAdalaber.social_networks.map((eachAdalaber) => (<a href={eachAdalaber.url}>{eachAdalaber.name}</a>))}
+        </td>
+
+
       </tr>
     ));
 
@@ -147,6 +162,16 @@ function App() {
             onChange={handleArea}
             value={newArea}
           />
+          <input
+            className="new-contact__input"
+            type="text"
+            name="rrss"
+            id="rss"
+            placeholder="RRSS"
+            onChange={handleRrss}
+            value={socialNetworks}
+          />
+
           <input
             className="new-contact__btn"
             type="submit"
